@@ -16,9 +16,22 @@
 		878CBE3E2E2B802E00BC49C9 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		878CBE742E2B9FBA00BC49C9 /* Exceptions for "WhisperKitEx1" folder in "WhisperKitEx1" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 878CBE2A2E2B7F3E00BC49C9 /* WhisperKitEx1 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		878CBE2D2E2B7F3E00BC49C9 /* WhisperKitEx1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				878CBE742E2B9FBA00BC49C9 /* Exceptions for "WhisperKitEx1" folder in "WhisperKitEx1" target */,
+			);
 			path = WhisperKitEx1;
 			sourceTree = "<group>";
 		};
@@ -288,7 +301,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RobertAI";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -316,7 +329,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RobertAI";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

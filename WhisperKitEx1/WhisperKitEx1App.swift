@@ -2,7 +2,7 @@
 //  WhisperKitEx1App.swift
 //  WhisperKitEx1
 //
-//  Created by 김병규 on 7/19/25.
+//  Created by makepluscode on 7/19/25.
 //
 
 import SwiftUI
