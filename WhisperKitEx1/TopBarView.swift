@@ -4,7 +4,7 @@ struct TopBarView: View {
     var body: some View {
         HStack {
             Spacer()
-            Text("RobertAI")
+            Text("CleoAI")
                 .font(.title2).bold()
             Image(systemName: "waveform")
                 .foregroundColor(.accentColor)
