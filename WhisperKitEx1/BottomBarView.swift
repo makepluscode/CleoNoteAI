@@ -19,7 +19,7 @@ struct BottomBarView: View {
                 Button(action: {}) {
                     Image(systemName: "list.bullet")
                         .font(.title2)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.accentColor)
                 }
                 .disabled(true)
 
@@ -32,16 +32,11 @@ struct BottomBarView: View {
                 }) {
                     if isTranscribing {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.red)
+                            .fill(Color.accentColor)
                             .frame(width: 32, height: 32)
-                            .overlay(
-                                Image(systemName: "stop.fill")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 16, weight: .bold))
-                            )
                     } else {
                         Circle()
-                            .fill(Color.red)
+                            .fill(Color.accentColor)
                             .frame(width: 32, height: 32)
                     }
                 }
@@ -51,7 +46,7 @@ struct BottomBarView: View {
                 Button(action: {}) {
                     Image(systemName: "slider.horizontal.3")
                         .font(.title2)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.accentColor)
                 }
                 .disabled(true)
             }

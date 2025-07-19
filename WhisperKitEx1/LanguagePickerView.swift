@@ -10,9 +10,14 @@ struct LanguagePickerView: View {
                 Button(lang) { selectedLanguage = lang }
             }
         } label: {
-            Text(selectedLanguage)
-                .foregroundColor(.blue)
-                .font(.body)
+            HStack(spacing: 8) {
+                Text(selectedLanguage)
+                    .foregroundColor(.blue)
+                    .font(.body)
+                Image(systemName: "chevron.up.chevron.down")
+                    .foregroundColor(.blue)
+                    .font(.body)
+            }
         }
     }
 } 
