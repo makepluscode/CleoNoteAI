@@ -4,12 +4,12 @@ struct TopBarView: View {
     var body: some View {
         HStack {
             Spacer()
-            Text("WhisperKit")
+            Text("RobertAI")
                 .font(.title2).bold()
             Image(systemName: "waveform")
-                .foregroundColor(.pink)
+                .foregroundColor(.accentColor)
             Spacer()
         }
         .padding(.top, 20)
     }
-} 
+}
