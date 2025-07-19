@@ -18,7 +18,6 @@ sequenceDiagram
             Bundle-->>ContentView: nil 반환
             ContentView->>MainActor: transcript = "오디오 파일을 찾을 수 없습니다." (UI 업데이트)
             ContentView->>MainActor: isProcessing = false (UI 업데이트)
-            return
         end
     end
 
