@@ -1,0 +1,28 @@
+# Xcode
+#
+# User-specific files
+*.xcodeproj/project.xcworkspace
+*.xcodeproj/xcuserdata
+*.xcworkspace/xcuserdata
+
+# Build products
+build/
+Build/
+DerivedData/
+
+# Swift Package Manager
+#
+# Build artifacts
+.build/
+Packages/
+
+# macOS
+#
+# System files
+.DS_Store
+
+# Project-specific
+#
+# Large binary and audio files
+*.bin
+*.wav
