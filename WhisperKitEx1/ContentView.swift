@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = TranscriptionViewModel()
-    @State private var selectedLanguage = "English"
     let languages = ["English", "한국어"]
 
     var body: some View {
@@ -11,9 +10,17 @@ struct ContentView: View {
             Spacer()
             if !viewModel.transcriptionResult.isEmpty {
                 ScrollView {
-                    Text(viewModel.transcriptionResult)
-                        .padding()
-                        .foregroundColor(.white)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(viewModel.transcriptionResult)
+                            .padding()
+                            .foregroundColor(.white)
+                        if !viewModel.transcriptionMeta.isEmpty {
+                            Text(viewModel.transcriptionMeta)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .padding([.leading, .bottom, .trailing])
+                        }
+                    }
                 }
             }
             if let error = viewModel.errorMessage {
@@ -26,7 +33,7 @@ struct ContentView: View {
                 isTranscribing: $viewModel.isTranscribing,
                 isRecording: $viewModel.isRecording,
                 onTranscription: viewModel.toggleRecording,
-                selectedLanguage: $selectedLanguage,
+                selectedLanguage: $viewModel.selectedLanguage,
                 languages: languages
             )
         }
