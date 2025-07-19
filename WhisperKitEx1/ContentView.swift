@@ -24,7 +24,8 @@ struct ContentView: View {
             Spacer()
             BottomBarView(
                 isTranscribing: $viewModel.isTranscribing,
-                onTranscription: viewModel.transcribeTestWav,
+                isRecording: $viewModel.isRecording,
+                onTranscription: viewModel.toggleRecording,
                 selectedLanguage: $selectedLanguage,
                 languages: languages
             )
