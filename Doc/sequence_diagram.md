@@ -1,4 +1,3 @@
-```mermaid
 sequenceDiagram
     participant User
     participant ContentView
@@ -18,7 +17,6 @@ sequenceDiagram
             Bundle-->>ContentView: nil 반환
             ContentView->>MainActor: transcript = "오디오 파일을 찾을 수 없습니다." (UI 업데이트)
             ContentView->>MainActor: isProcessing = false (UI 업데이트)
-            return
         end
     end
 
@@ -33,4 +31,3 @@ sequenceDiagram
     ContentView->>MainActor: transcript = "변환된 전체 텍스트" (UI 업데이트)
 
     ContentView->>MainActor: isProcessing = false (UI 업데이트)
-```
