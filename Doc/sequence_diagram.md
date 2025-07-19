@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant User
     participant ContentView
@@ -29,5 +30,4 @@ sequenceDiagram
 
     ContentView->>ContentView: 결과 텍스트 가공 (map & joined)
     ContentView->>MainActor: transcript = "변환된 전체 텍스트" (UI 업데이트)
-
     ContentView->>MainActor: isProcessing = false (UI 업데이트)
