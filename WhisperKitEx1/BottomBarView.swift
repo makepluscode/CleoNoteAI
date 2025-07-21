@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BottomBarView: View {
     @Binding var isTranscribing: Bool
+    @Binding var isRecording: Bool
     var onTranscription: () -> Void
     @Binding var selectedLanguage: String
     let languages: [String]
@@ -26,11 +27,9 @@ struct BottomBarView: View {
                 Spacer()
 
                 Button(action: {
-                    if !isTranscribing {
-                        onTranscription()
-                    }
+                    onTranscription()
                 }) {
-                    if isTranscribing {
+                    if isRecording {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(Color.accentColor)
                             .frame(width: 32, height: 32)
