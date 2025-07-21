@@ -12,7 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		878CBE2B2E2B7F3E00BC49C9 /* RobertAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RobertAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleoAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		878CBE3E2E2B802E00BC49C9 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,7 +61,7 @@
 		878CBE2C2E2B7F3E00BC49C9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				878CBE2B2E2B7F3E00BC49C9 /* RobertAI.app */,
+				878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,7 +97,7 @@
 				878CBE3A2E2B800700BC49C9 /* WhisperKit */,
 			);
 			productName = WhisperKitEx1;
-			productReference = 878CBE2B2E2B7F3E00BC49C9 /* RobertAI.app */;
+			productReference = 878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -302,7 +302,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
-				PRODUCT_NAME = RobertAI;
+				PRODUCT_NAME = CleoAI;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -331,7 +331,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
-				PRODUCT_NAME = RobertAI;
+				PRODUCT_NAME = CleoAI;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
