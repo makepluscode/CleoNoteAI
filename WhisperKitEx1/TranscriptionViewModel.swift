@@ -163,12 +163,27 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         }
     }
 
+    private var progressTimer: Timer?
+    private var progressDotCount: Int = 1
+
     func transcribeRecordedFile() {
         isTranscribing = true
-        transcriptionResult = "음성 인식을 시작합니다..."
+        progressDotCount = 1
+        let fileSizeMB = Double(recordingFileSize) / (1024.0 * 1024.0)
+        let durationSec = getAudioDuration(url: audioFilename)
+        let baseMessage = String(format: "%.1f MB, %.2f초 길이의 오디오 파일을 '%@' 모델로 텍스트 변환 중입니다", fileSizeMB, durationSec, selectedModelName)
+        transcriptionResult = baseMessage + "."
         transcriptionMeta = ""
         errorMessage = nil
         transcriptionStart = Date()
+        // Start dot animation
+        progressTimer?.invalidate()
+        progressTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.progressDotCount = (self.progressDotCount % 3) + 1
+            let dots = String(repeating: ".", count: self.progressDotCount)
+            self.transcriptionResult = baseMessage + dots
+        }
         Task {
             do {
                 let whisper = try await WhisperKit(model: selectedModelName)
@@ -187,6 +202,8 @@ class TranscriptionViewModel: NSObject, ObservableObject {
                 transcriptionMeta = ""
             }
             isTranscribing = false
+            progressTimer?.invalidate()
+            progressTimer = nil
         }
     }
 
