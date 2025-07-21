@@ -92,4 +92,11 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioRecorderDelegat
         let asset = AVURLAsset(url: url)
         return CMTimeGetSeconds(asset.duration)
     }
+
+    // 전사 결과/메타데이터 초기화
+    func clearTranscription() {
+        transcriptionResult = ""
+        transcriptionMeta = ""
+        errorMessage = nil
+    }
 } 
