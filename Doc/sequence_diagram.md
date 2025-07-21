@@ -19,10 +19,12 @@ sequenceDiagram
             ViewModel->>Timer: recordingTimer fires
             Timer-->>ViewModel: update recordingTime & fileSize
         end
-        ViewModel->>MainActor: isRecording=true,
-            audioLevel, recordingTime,
-            bufferSize, formatInfo,
-            fileSize (UI updates)
+        ViewModel->>MainActor: isRecording=true
+        MainActor->>MainActor: audioLevel
+        MainActor->>MainActor: recordingTime
+        MainActor->>MainActor: bufferSize
+        MainActor->>MainActor: formatInfo
+        MainActor->>MainActor: fileSize (UI updates)
     end
 
     Note over User,ContentView: Stop & transcribe flow
@@ -33,8 +35,8 @@ sequenceDiagram
     ViewModel->>ViewModel: update final fileSize
     ViewModel->>MainActor: isRecording=false (UI update)
     ViewModel->>ViewModel: transcribeRecordedFile()
-    ViewModel->>MainActor: isTranscribing=true,
-        transcriptionResult="음성 인식을 시작합니다..." (UI updates)
+    ViewModel->>MainActor: isTranscribing=true
+    MainActor->>MainActor: transcriptionResult="음성 인식을 시작합니다..." (UI updates)
 
     Note over ViewModel,WhisperKit: transcription
     ViewModel->>WhisperKit: WhisperKit(model: "tiny")
@@ -42,7 +44,7 @@ sequenceDiagram
     ViewModel->>WhisperKit: transcribe(audioPath)
     WhisperKit-->>ViewModel: [TranscriptionResult] array
     ViewModel->>ViewModel: process result, compute metadata
-    ViewModel->>MainActor: transcriptionResult,
-        transcriptionMeta (UI update)
+    ViewModel->>MainActor: transcriptionResult
+    MainActor->>MainActor: transcriptionMeta (UI update)
     ViewModel->>MainActor: isTranscribing=false (UI update)
 ```
