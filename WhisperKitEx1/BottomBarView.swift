@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct BottomBarView: View {
+    @State private var isModelMenuPresented = false
     @Binding var isTranscribing: Bool
     @Binding var isRecording: Bool
     var onTranscription: () -> Void
     @Binding var selectedLanguage: String
     let languages: [String]
+    @Binding var selectedModelName: String
+    let models: [String]
 
     var body: some View {
         VStack {
@@ -20,7 +23,7 @@ struct BottomBarView: View {
                 Button(action: {}) {
                     Image(systemName: "list.bullet")
                         .font(.title2)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(.gray)
                 }
                 .disabled(true)
 
@@ -42,15 +45,30 @@ struct BottomBarView: View {
 
                 Spacer()
 
-                Button(action: {}) {
+                Button(action: {
+                    isModelMenuPresented = true
+                }) {
                     Image(systemName: "slider.horizontal.3")
                         .font(.title2)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(.gray)
                 }
-                .disabled(true)
+                .actionSheet(isPresented: $isModelMenuPresented) {
+                    ActionSheet(
+                        title: Text("모델 선택"),
+                        buttons: models.map { model in
+                            .default(Text(model + (model == selectedModelName ? " ✅" : ""))) {
+                                selectedModelName = model
+                            }
+                        } + [.cancel()]
+                    )
+                }
+                .onTapGesture {
+                    isModelMenuPresented = true
+                }
+                .disabled(false)
             }
             .padding(.horizontal, 40)
             .padding(.bottom, 30)
         }
     }
-} 
+}

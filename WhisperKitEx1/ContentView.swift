@@ -28,7 +28,9 @@ struct ContentView: View {
                 isRecording: $viewModel.isRecording,
                 onTranscription: viewModel.toggleRecording,
                 selectedLanguage: $viewModel.selectedLanguage,
-                languages: languages
+                languages: languages,
+                selectedModelName: $viewModel.selectedModelName,
+                models: viewModel.availableModels
             )
         }
         .background(Color.black.ignoresSafeArea())

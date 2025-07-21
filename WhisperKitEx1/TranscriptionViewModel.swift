@@ -18,18 +18,32 @@ class TranscriptionViewModel: NSObject, ObservableObject {
     @Published var recordingFormatInfo: String = ""
     @Published var recordingFileSize: Int64 = 0
 
+    @Published var selectedModelName: String = "small"
+    let availableModels: [String] = ["tiny", "base", "small", "medium", "large"]
+    var modelSizeMB: Int {
+        switch selectedModelName {
+        case "tiny": return 75
+        case "base": return 142
+        case "small": return 244
+        case "medium": return 769
+        case "large": return 1550
+        default: return 0
+        }
+    }
+    
+    // private let modelName = "tiny"
+    // private let modelSizeMB = 75 // tiny 모델 약 75MB
+    private var transcriptionStart: Date?
+    
+    private var recordingTimer: Timer?
+    private var recordingStartTime: Date?
+
     private var audioEngine: AVAudioEngine?
     private var audioFile: AVAudioFile?
     private var audioFilename: URL {
         let tempDir = FileManager.default.temporaryDirectory
         return tempDir.appendingPathComponent("recorded.wav")
     }
-    private let modelName = "tiny"
-    private let modelSizeMB = 75 // tiny 모델 약 75MB
-    private var transcriptionStart: Date?
-    
-    private var recordingTimer: Timer?
-    private var recordingStartTime: Date?
 
     func toggleRecording() {
         if isRecording {
@@ -157,7 +171,7 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         transcriptionStart = Date()
         Task {
             do {
-                let whisper = try await WhisperKit(model: modelName)
+                let whisper = try await WhisperKit(model: selectedModelName)
                 let result = try await whisper.transcribe(audioPath: audioFilename.path)
                 let fullText = result.map(\.text).joined()
                 transcriptionResult = fullText
@@ -166,7 +180,7 @@ class TranscriptionViewModel: NSObject, ObservableObject {
                 let wordCount = fullText.split { $0.isWhitespace || $0.isNewline }.count
                 let elapsed = transcriptionStart.map { String(format: "%.2f", Date().timeIntervalSince($0)) } ?? "-"
                 let lang = selectedLanguage
-                transcriptionMeta = "모델: \(modelName) (\(modelSizeMB)MB) | 언어: \(lang) | 오디오 길이: \(String(format: "%.2f", duration))초 | 단어 수: \(wordCount) | 전사 소요: \(elapsed)초"
+                transcriptionMeta = "모델: \(selectedModelName) (\(modelSizeMB)MB) | 언어: \(lang) | 오디오 길이: \(String(format: "%.2f", duration))초 | 단어 수: \(wordCount) | 전사 소요: \(elapsed)초"
             } catch {
                 errorMessage = "전사 실패: \(error.localizedDescription)"
                 transcriptionResult = ""
@@ -188,4 +202,4 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         transcriptionMeta = ""
         errorMessage = nil
     }
-} 
+}
