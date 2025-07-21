@@ -52,20 +52,35 @@ struct BottomBarView: View {
                         .font(.title2)
                         .foregroundColor(.gray)
                 }
-                .actionSheet(isPresented: $isModelMenuPresented) {
-                    ActionSheet(
-                        title: Text("모델 선택"),
-                        buttons: models.map { model in
-                            .default(Text(model + (model == selectedModelName ? " ✅" : ""))) {
+                .sheet(isPresented: $isModelMenuPresented) {
+                    VStack(spacing: 0) {
+                        Text("모델 선택")
+                            .font(.headline)
+                            .padding()
+                        Divider()
+                        ForEach(models, id: \.self) { model in
+                            Button(action: {
                                 selectedModelName = model
+                                isModelMenuPresented = false
+                            }) {
+                                Text(model)
+                                    .font(.title3)
+                                    .foregroundColor(model == selectedModelName ? .accentColor : .gray)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(model == selectedModelName ? Color.accentColor.opacity(0.15) : Color.clear)
                             }
-                        } + [.cancel()]
-                    )
+                        }
+                        Divider()
+                        Button("취소", role: .cancel) {
+                            isModelMenuPresented = false
+                        }
+                        .padding()
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(16)
+                    .padding()
                 }
-                .onTapGesture {
-                    isModelMenuPresented = true
-                }
-                .disabled(false)
             }
             .padding(.horizontal, 40)
             .padding(.bottom, 30)
