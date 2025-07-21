@@ -9,50 +9,19 @@ struct ContentView: View {
         VStack {
             TopBarView()
             Spacer()
-            if !viewModel.transcriptionResult.isEmpty {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(viewModel.transcriptionResult)
-                            .padding()
-                            .foregroundColor(.white)
-                        if !viewModel.transcriptionMeta.isEmpty {
-                            HStack(alignment: .center, spacing: 8) {
-                                Text(viewModel.transcriptionMeta)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                Spacer(minLength: 8)
-                                // 복사 아이콘
-                                Button(action: {
-                                    UIPasteboard.general.string = viewModel.transcriptionResult
-                                }) {
-                                    Image(systemName: "doc.on.doc")
-                                        .foregroundColor(.accentColor)
-                                }
-                                // 저장 아이콘
-                                Button(action: {
-                                    showShareSheet = true
-                                }) {
-                                    Image(systemName: "square.and.arrow.down")
-                                        .foregroundColor(.accentColor)
-                                }
-                                // 삭제 아이콘
-                                Button(action: {
-                                    viewModel.clearTranscription()
-                                }) {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.accentColor)
-                                }
-                            }
-                            .padding([.leading, .bottom, .trailing])
-                        }
-                    }
-                }
+
+            if viewModel.isRecording {
+                RecordingStatusView(viewModel: viewModel)
+            } else if !viewModel.transcriptionResult.isEmpty {
+                TranscriptionResultView(viewModel: viewModel, showShareSheet: $showShareSheet)
             }
+            
             if let error = viewModel.errorMessage {
                 Text(error)
                     .foregroundColor(.red)
                     .padding()
             }
+            
             Spacer()
             BottomBarView(
                 isTranscribing: $viewModel.isTranscribing,
@@ -65,21 +34,115 @@ struct ContentView: View {
         .background(Color.black.ignoresSafeArea())
         .foregroundColor(.white)
         .sheet(isPresented: $showShareSheet) {
-            let text = viewModel.transcriptionResult
-            ActivityView(activityItems: [textToTempFile(text: text)])
+            if let fileURL = textToTempFile(text: viewModel.transcriptionResult) {
+                ActivityView(activityItems: [fileURL])
+            }
         }
     }
 }
 
-// 텍스트를 임시 txt 파일로 저장하여 공유
-func textToTempFile(text: String) -> URL {
-    let tempDir = FileManager.default.temporaryDirectory
-    let fileURL = tempDir.appendingPathComponent("transcription.txt")
-    try? text.write(to: fileURL, atomically: true, encoding: .utf8)
-    return fileURL
+struct RecordingStatusView: View {
+    @ObservedObject var viewModel: TranscriptionViewModel
+
+    var body: some View {
+        VStack(spacing: 16) {
+            // Recording Time
+            Text(formatTime(viewModel.recordingTime))
+                .font(.system(size: 48, weight: .bold, design: .monospaced))
+                .foregroundColor(.accentColor)
+
+            // Audio Level Meter
+            ProgressView(value: viewModel.audioLevel)
+                .progressViewStyle(LinearProgressViewStyle(tint: .accentColor))
+                .frame(height: 8)
+                .padding(.horizontal)
+
+            // Detailed Info Grid
+            VStack(alignment: .leading, spacing: 12) {
+                InfoRow(label: "Buffer Size", value: "\(viewModel.recordingBufferSize) frames")
+                InfoRow(label: "Audio Format", value: viewModel.recordingFormatInfo)
+                InfoRow(label: "File Size", value: "\(String(format: "%.2f", Double(viewModel.recordingFileSize) / 1024.0)) KB")
+            }
+            .padding()
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(12)
+        }
+        .padding()
+    }
+
+    private func formatTime(_ interval: TimeInterval) -> String {
+        let minutes = Int(interval) / 60
+        let seconds = Int(interval) % 60
+        let milliseconds = Int((interval.truncatingRemainder(dividingBy: 1)) * 100)
+        return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
+    }
 }
 
-// UIKit의 UIActivityViewController를 SwiftUI에서 사용
+struct InfoRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.headline)
+                .foregroundColor(.gray)
+            Spacer()
+            Text(value)
+                .font(.body)
+                .foregroundColor(.white)
+        }
+    }
+}
+
+struct TranscriptionResultView: View {
+    @ObservedObject var viewModel: TranscriptionViewModel
+    @Binding var showShareSheet: Bool
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(viewModel.transcriptionResult)
+                    .padding()
+                    .foregroundColor(.white)
+                
+                if !viewModel.transcriptionMeta.isEmpty {
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(viewModel.transcriptionMeta)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        Spacer(minLength: 8)
+                        // Action Buttons
+                        Button(action: { UIPasteboard.general.string = viewModel.transcriptionResult }) {
+                            Image(systemName: "doc.on.doc")
+                        }
+                        Button(action: { showShareSheet = true }) {
+                            Image(systemName: "square.and.arrow.down")
+                        }
+                        Button(action: { viewModel.clearTranscription() }) {
+                            Image(systemName: "trash")
+                        }
+                    }
+                    .foregroundColor(.accentColor)
+                    .padding([.leading, .bottom, .trailing])
+                }
+            }
+        }
+    }
+}
+
+// Utility Functions
+func textToTempFile(text: String) -> URL? {
+    let tempDir = FileManager.default.temporaryDirectory
+    let fileURL = tempDir.appendingPathComponent("transcription.txt")
+    do {
+        try text.write(to: fileURL, atomically: true, encoding: .utf8)
+        return fileURL
+    } catch {
+        return nil
+    }
+}
+
 import UIKit
 struct ActivityView: UIViewControllerRepresentable {
     let activityItems: [Any]
