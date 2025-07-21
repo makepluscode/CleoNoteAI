@@ -4,17 +4,22 @@
 
 ```mermaid
 flowchart TD
-    A[ContentView.swift] --> B[TopBarView.swift]
+    A[ContentView.swift]
+    A --> B[TopBarView.swift]
     A --> C[BottomBarView.swift]
     C --> D[LanguagePickerView.swift]
+    A --> H[RecordingStatusView (ContentView.swift)]
+    A --> I[TranscriptionResultView (ContentView.swift)]
     A --> E[TranscriptionViewModel.swift]
     A --> F[Assets.xcassets/AccentColor]
     A --> G[Assets.xcassets/AppIcon]
-    
+
     subgraph UI
       B
       C
       D
+      H
+      I
     end
     subgraph Logic
       E
@@ -23,4 +28,4 @@ flowchart TD
       F
       G
     end
-``` 
+```
