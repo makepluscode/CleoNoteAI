@@ -186,8 +186,9 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         }
         Task {
             do {
+                let langCode = languageCode(for: selectedLanguage)
                 let whisper = try await WhisperKit(model: selectedModelName)
-                let result = try await whisper.transcribe(audioPath: audioFilename.path)
+                let result = try await whisper.transcribe(audioPath: audioFilename.path, language: langCode)
                 let fullText = result.map(\.text).joined()
                 transcriptionResult = fullText
                 // 메타데이터 계산
@@ -218,5 +219,16 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         transcriptionResult = ""
         transcriptionMeta = ""
         errorMessage = nil
+    }
+
+    private func languageCode(for language: String) -> String {
+        switch language {
+        case "English":
+            return "en"
+        case "한국어":
+            return "ko"
+        default:
+            return "en" // Default to English
+        }
     }
 }

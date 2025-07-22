@@ -64,6 +64,7 @@ struct RecordingStatusView: View {
                 InfoRow(label: "Buffer Size", value: "\(viewModel.recordingBufferSize) frames")
                 InfoRow(label: "Audio Format", value: viewModel.recordingFormatInfo)
                 InfoRow(label: "File Size", value: fileSizeString(viewModel.recordingFileSize))
+                InfoRow(label: "Language", value: viewModel.selectedLanguage)
             }
             .padding()
             .background(Color.white.opacity(0.1))
@@ -124,15 +125,9 @@ struct TranscriptionResultView: View {
                             .foregroundColor(.gray)
                         Spacer(minLength: 8)
                         // Action Buttons
-                        Button(action: { UIPasteboard.general.string = viewModel.transcriptionResult }) {
-                            Image(systemName: "doc.on.doc")
-                        }
-                        Button(action: { showShareSheet = true }) {
-                            Image(systemName: "square.and.arrow.down")
-                        }
-                        Button(action: { viewModel.clearTranscription() }) {
-                            Image(systemName: "trash")
-                        }
+                        PressableIconButton(action: { UIPasteboard.general.string = viewModel.transcriptionResult }, systemName: "doc.on.doc")
+                        PressableIconButton(action: { showShareSheet = true }, systemName: "square.and.arrow.down")
+                        PressableIconButton(action: { viewModel.clearTranscription() }, systemName: "trash")
                     }
                     .foregroundColor(.accentColor)
                     .padding([.leading, .bottom, .trailing])
@@ -145,7 +140,10 @@ struct TranscriptionResultView: View {
 // Utility Functions
 func textToTempFile(text: String) -> URL? {
     let tempDir = FileManager.default.temporaryDirectory
-    let fileURL = tempDir.appendingPathComponent("transcription.txt")
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyyMMdd-HHmmss"
+    let dateString = formatter.string(from: Date())
+    let fileURL = tempDir.appendingPathComponent("trans-\(dateString).txt")
     do {
         try text.write(to: fileURL, atomically: true, encoding: .utf8)
         return fileURL
@@ -161,4 +159,24 @@ struct ActivityView: UIViewControllerRepresentable {
         UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+} 
+
+struct PressableIconButton: View {
+    let action: () -> Void
+    let systemName: String
+    @State private var isPressed = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .scaleEffect(isPressed ? 0.85 : 1.0)
+                .opacity(isPressed ? 0.5 : 1.0)
+                .animation(.easeInOut(duration: 0.15), value: isPressed)
+        }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
+    }
 } 
