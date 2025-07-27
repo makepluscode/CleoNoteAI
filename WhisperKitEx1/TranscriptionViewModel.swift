@@ -171,7 +171,7 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         progressDotCount = 1
         let fileSizeMB = Double(recordingFileSize) / (1024.0 * 1024.0)
         let durationSec = getAudioDuration(url: audioFilename)
-        let baseMessage = String(format: "%.1f MB, %.2f초 길이의 오디오 파일을 '%@' 모델로 텍스트 변환 중입니다", fileSizeMB, durationSec, selectedModelName)
+        let baseMessage = String(format: "%.1f MB, %.2f초 길이의 오디오 파일을 '%@' 모델로 (%@) 텍스트 변환 중입니다", fileSizeMB, durationSec, selectedModelName, selectedLanguage)
         transcriptionResult = baseMessage + "."
         transcriptionMeta = ""
         errorMessage = nil
@@ -186,9 +186,8 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         }
         Task {
             do {
-                let langCode = languageCode(for: selectedLanguage)
                 let whisper = try await WhisperKit(model: selectedModelName)
-                let result = try await whisper.transcribe(audioPath: audioFilename.path, language: langCode)
+                let result = try await whisper.transcribe(audioPath: audioFilename.path)
                 let fullText = result.map(\.text).joined()
                 transcriptionResult = fullText
                 // 메타데이터 계산
@@ -221,14 +220,12 @@ class TranscriptionViewModel: NSObject, ObservableObject {
         errorMessage = nil
     }
 
-    private func languageCode(for language: String) -> String {
-        switch language {
-        case "English":
-            return "en"
-        case "한국어":
-            return "ko"
-        default:
-            return "en" // Default to English
+    // Helper to convert display language to code
+    private var selectedLanguageCode: String? {
+        switch selectedLanguage {
+        case "English": return "en"
+        case "한국어": return "ko"
+        default: return nil
         }
     }
 }
