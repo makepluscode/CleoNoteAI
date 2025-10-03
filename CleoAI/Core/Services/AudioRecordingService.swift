@@ -72,11 +72,25 @@ class AudioRecordingService: NSObject, ObservableObject {
             }
             recordingStartTime = Date()
             
+            var tickCount = 0
             recordingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
                 guard let self = self, let startTime = self.recordingStartTime else { return }
                 DispatchQueue.main.async {
                     self.recordingTime = Date().timeIntervalSince(startTime)
                     self.updateRecordingFileSize()
+                    
+                    // Log brightness every 1 second (every 10 ticks)
+                    tickCount += 1
+                    if tickCount % 10 == 0 {
+                        let currentBrightness = UIScreen.main.brightness
+                        print("💡 [AudioRecording] Current brightness at \(Int(self.recordingTime))s: \(String(format: "%.3f", currentBrightness))")
+                        
+                        // Force brightness back to minimum if it changed (auto-brightness)
+                        if currentBrightness > 0.02 {
+                            print("⚠️ [AudioRecording] Auto-brightness detected (\(String(format: "%.3f", currentBrightness))), forcing back to 0.01")
+                            UIScreen.main.brightness = 0.01
+                        }
+                    }
                 }
             }
         } catch {
