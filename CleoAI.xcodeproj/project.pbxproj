@@ -14,22 +14,9 @@
 		878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleoAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		878CBE742E2B9FBA00BC49C9 /* Exceptions for "CleoAI" folder in "CleoAI" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 878CBE2A2E2B7F3E00BC49C9 /* CleoAI */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		878CBE2D2E2B7F3E00BC49C9 /* CleoAI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				878CBE742E2B9FBA00BC49C9 /* Exceptions for "CleoAI" folder in "CleoAI" target */,
-			);
 			path = CleoAI;
 			sourceTree = "<group>";
 		};
@@ -281,6 +268,7 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "음성 인식 및 녹음을 위해 마이크 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -310,6 +298,7 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "음성 인식 및 녹음을 위해 마이크 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -370,7 +359,3 @@
 	};
 	rootObject = 878CBE232E2B7F3E00BC49C9 /* Project object */;
 }
-
-
-
-

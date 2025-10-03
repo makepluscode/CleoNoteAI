@@ -2,7 +2,6 @@ import Foundation
 import AVFoundation
 import Combine
 
-@MainActor
 class AudioRecordingService: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var audioLevel: Float = 0.0
@@ -23,6 +22,9 @@ class AudioRecordingService: NSObject, ObservableObject {
     
     func startRecording() throws {
         guard !isRecording else { return }
+        
+        // Configure audio session for background recording
+        try configureAudioSessionForBackground()
         
         audioEngine = AVAudioEngine()
         let inputNode = audioEngine!.inputNode
@@ -54,19 +56,20 @@ class AudioRecordingService: NSObject, ObservableObject {
         }
         
         do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord, mode: .default)
-            try session.setActive(true)
             audioEngine?.prepare()
             try audioEngine?.start()
             
-            isRecording = true
+            DispatchQueue.main.async {
+                self.isRecording = true
+            }
             recordingStartTime = Date()
             
             recordingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
                 guard let self = self, let startTime = self.recordingStartTime else { return }
-                self.recordingTime = Date().timeIntervalSince(startTime)
-                self.updateRecordingFileSize()
+                DispatchQueue.main.async {
+                    self.recordingTime = Date().timeIntervalSince(startTime)
+                    self.updateRecordingFileSize()
+                }
             }
         } catch {
             throw AudioRecordingError.recordingStartFailed(error)
@@ -84,7 +87,9 @@ class AudioRecordingService: NSObject, ObservableObject {
         
         updateRecordingFileSize()
         
-        isRecording = false
+        DispatchQueue.main.async {
+            self.isRecording = false
+        }
         audioFile = nil
         
         let duration = getAudioDuration(url: audioFilename)
@@ -101,9 +106,14 @@ class AudioRecordingService: NSObject, ObservableObject {
     private func updateRecordingFileSize() {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: audioFilename.path)
-            recordingFileSize = attributes[.size] as? Int64 ?? 0
+            let size = attributes[.size] as? Int64 ?? 0
+            DispatchQueue.main.async {
+                self.recordingFileSize = size
+            }
         } catch {
-            recordingFileSize = 0
+            DispatchQueue.main.async {
+                self.recordingFileSize = 0
+            }
         }
     }
     
@@ -133,6 +143,12 @@ class AudioRecordingService: NSObject, ObservableObject {
     private func getAudioDuration(url: URL) -> TimeInterval {
         let asset = AVURLAsset(url: url)
         return CMTimeGetSeconds(asset.duration)
+    }
+    
+    private func configureAudioSessionForBackground() throws {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playAndRecord, mode: .default, options: [.allowBluetooth, .defaultToSpeaker, .allowBluetoothA2DP])
+        try session.setActive(true)
     }
 }
 
