@@ -1,5 +1,6 @@
 import Foundation
 import WhisperKit
+import Combine
 
 @MainActor
 class TranscriptionService: ObservableObject {
@@ -60,6 +61,11 @@ class TranscriptionService: ObservableObject {
         progressTimer?.invalidate()
         progressTimer = nil
     }
+}
+
+extension TranscriptionService: TranscriptionProviding {
+    var isTranscribingPublisher: AnyPublisher<Bool, Never> { $isTranscribing.eraseToAnyPublisher() }
+    var progressMessagePublisher: AnyPublisher<String, Never> { $progressMessage.eraseToAnyPublisher() }
 }
 
 enum TranscriptionError: LocalizedError {

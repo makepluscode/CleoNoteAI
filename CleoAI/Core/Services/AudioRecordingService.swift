@@ -136,6 +136,15 @@ class AudioRecordingService: NSObject, ObservableObject {
     }
 }
 
+extension AudioRecordingService: AudioRecordingProviding {
+    var isRecordingPublisher: AnyPublisher<Bool, Never> { $isRecording.eraseToAnyPublisher() }
+    var audioLevelPublisher: AnyPublisher<Float, Never> { $audioLevel.eraseToAnyPublisher() }
+    var recordingTimePublisher: AnyPublisher<TimeInterval, Never> { $recordingTime.eraseToAnyPublisher() }
+    var recordingBufferSizePublisher: AnyPublisher<UInt32, Never> { $recordingBufferSize.eraseToAnyPublisher() }
+    var recordingFormatInfoPublisher: AnyPublisher<String, Never> { $recordingFormatInfo.eraseToAnyPublisher() }
+    var recordingFileSizePublisher: AnyPublisher<Int64, Never> { $recordingFileSize.eraseToAnyPublisher() }
+}
+
 enum AudioRecordingError: LocalizedError {
     case fileCreationFailed(Error)
     case recordingStartFailed(Error)
