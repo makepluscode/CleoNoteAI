@@ -79,17 +79,16 @@ class AudioRecordingService: NSObject, ObservableObject {
                     self.recordingTime = Date().timeIntervalSince(startTime)
                     self.updateRecordingFileSize()
                     
+                    // Check and force brightness every tick (0.1s) to prevent auto-brightness
+                    let currentBrightness = UIScreen.main.brightness
+                    if currentBrightness > 0.015 {
+                        UIScreen.main.brightness = 0.01
+                    }
+                    
                     // Log brightness every 1 second (every 10 ticks)
                     tickCount += 1
                     if tickCount % 10 == 0 {
-                        let currentBrightness = UIScreen.main.brightness
-                        print("💡 [AudioRecording] Current brightness at \(Int(self.recordingTime))s: \(String(format: "%.3f", currentBrightness))")
-                        
-                        // Force brightness back to minimum if it changed (auto-brightness)
-                        if currentBrightness > 0.02 {
-                            print("⚠️ [AudioRecording] Auto-brightness detected (\(String(format: "%.3f", currentBrightness))), forcing back to 0.01")
-                            UIScreen.main.brightness = 0.01
-                        }
+                        print("💡 [AudioRecording] Brightness at \(Int(self.recordingTime))s: \(String(format: "%.3f", currentBrightness)) → forced to 0.01")
                     }
                 }
             }
