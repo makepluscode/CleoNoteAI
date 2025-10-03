@@ -1,9 +1,0 @@
-# Git Commit Rule
-
-- 커밋 메시지는 영어로 작성, 첫 글자 대문자
-- Prefix는 Conventional Commits 스타일 사용 (Feat, Fix, Docs, Chore 등)
-- 예시: "Feat: Add voice transcription feature"
-description:
-globs:
-alwaysApply: false
----
