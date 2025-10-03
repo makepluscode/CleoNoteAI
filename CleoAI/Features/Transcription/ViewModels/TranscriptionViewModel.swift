@@ -10,20 +10,27 @@ class TranscriptionViewModel: ObservableObject {
     @Published var selectedLanguage: String = AppConstants.defaultLanguage
     @Published var selectedModelName: String = AppConstants.defaultModel
     
-    private let transcriptionService = TranscriptionService()
-    private let noteSummarizationService = NoteSummarizationService()
+    private let transcriptionService: TranscriptionProviding
+    private let noteSummarizationService: NoteSummarizationProviding
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    init(
+        transcriptionService: TranscriptionProviding = TranscriptionService(),
+        noteSummarizationService: NoteSummarizationProviding = NoteSummarizationService()
+    ) {
+        self.transcriptionService = transcriptionService
+        self.noteSummarizationService = noteSummarizationService
         setupBindings()
     }
     
     private func setupBindings() {
-        transcriptionService.$isTranscribing
+        transcriptionService.isTranscribingPublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.isTranscribing, on: self)
             .store(in: &cancellables)
         
-        transcriptionService.$progressMessage
+        transcriptionService.progressMessagePublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.progressMessage, on: self)
             .store(in: &cancellables)
     }

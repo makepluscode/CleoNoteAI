@@ -11,35 +11,42 @@ class RecordingViewModel: ObservableObject {
     @Published var recordingFileSize: Int64 = 0
     @Published var errorMessage: String?
     
-    private let audioRecordingService = AudioRecordingService()
+    private let audioService: AudioRecordingProviding
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    init(audioService: AudioRecordingProviding = AudioRecordingService()) {
+        self.audioService = audioService
         setupBindings()
     }
     
     private func setupBindings() {
-        audioRecordingService.$isRecording
+        audioService.isRecordingPublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.isRecording, on: self)
             .store(in: &cancellables)
         
-        audioRecordingService.$audioLevel
+        audioService.audioLevelPublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.audioLevel, on: self)
             .store(in: &cancellables)
         
-        audioRecordingService.$recordingTime
+        audioService.recordingTimePublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.recordingTime, on: self)
             .store(in: &cancellables)
         
-        audioRecordingService.$recordingBufferSize
+        audioService.recordingBufferSizePublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.recordingBufferSize, on: self)
             .store(in: &cancellables)
         
-        audioRecordingService.$recordingFormatInfo
+        audioService.recordingFormatInfoPublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.recordingFormatInfo, on: self)
             .store(in: &cancellables)
         
-        audioRecordingService.$recordingFileSize
+        audioService.recordingFileSizePublisher
+            .receive(on: DispatchQueue.main)
             .assign(to: \.recordingFileSize, on: self)
             .store(in: &cancellables)
     }
@@ -55,7 +62,7 @@ class RecordingViewModel: ObservableObject {
     func startRecording() {
         Task {
             do {
-                try await audioRecordingService.startRecording()
+                try await audioService.startRecording()
                 errorMessage = nil
             } catch {
                 errorMessage = error.localizedDescription
@@ -64,7 +71,7 @@ class RecordingViewModel: ObservableObject {
     }
     
     func stopRecording() -> AudioRecording? {
-        return audioRecordingService.stopRecording()
+        return audioService.stopRecording()
     }
     
     func clearError() {
