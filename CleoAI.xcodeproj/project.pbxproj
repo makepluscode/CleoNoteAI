@@ -8,31 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		878CBE3B2E2B800700BC49C9 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 878CBE3A2E2B800700BC49C9 /* WhisperKit */; };
-		878CBE402E2B802E00BC49C9 /* test.wav in Resources */ = {isa = PBXBuildFile; fileRef = 878CBE3E2E2B802E00BC49C9 /* test.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleoAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		878CBE3E2E2B802E00BC49C9 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		878CBE742E2B9FBA00BC49C9 /* Exceptions for "WhisperKitEx1" folder in "WhisperKitEx1" target */ = {
+		878CBE742E2B9FBA00BC49C9 /* Exceptions for "CleoAI" folder in "CleoAI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 878CBE2A2E2B7F3E00BC49C9 /* WhisperKitEx1 */;
+			target = 878CBE2A2E2B7F3E00BC49C9 /* CleoAI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		878CBE2D2E2B7F3E00BC49C9 /* WhisperKitEx1 */ = {
+		878CBE2D2E2B7F3E00BC49C9 /* CleoAI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				878CBE742E2B9FBA00BC49C9 /* Exceptions for "WhisperKitEx1" folder in "WhisperKitEx1" target */,
+				878CBE742E2B9FBA00BC49C9 /* Exceptions for "CleoAI" folder in "CleoAI" target */,
 			);
-			path = WhisperKitEx1;
+			path = CleoAI;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,8 +50,7 @@
 		878CBE222E2B7F3E00BC49C9 = {
 			isa = PBXGroup;
 			children = (
-				878CBE3C2E2B801A00BC49C9 /* Resources */,
-				878CBE2D2E2B7F3E00BC49C9 /* WhisperKitEx1 */,
+				878CBE2D2E2B7F3E00BC49C9 /* CleoAI */,
 				878CBE2C2E2B7F3E00BC49C9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,20 +63,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		878CBE3C2E2B801A00BC49C9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				878CBE3E2E2B802E00BC49C9 /* test.wav */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		878CBE2A2E2B7F3E00BC49C9 /* WhisperKitEx1 */ = {
+		878CBE2A2E2B7F3E00BC49C9 /* CleoAI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 878CBE362E2B7F3F00BC49C9 /* Build configuration list for PBXNativeTarget "WhisperKitEx1" */;
+			buildConfigurationList = 878CBE362E2B7F3F00BC49C9 /* Build configuration list for PBXNativeTarget "CleoAI" */;
 			buildPhases = (
 				878CBE272E2B7F3E00BC49C9 /* Sources */,
 				878CBE282E2B7F3E00BC49C9 /* Frameworks */,
@@ -90,13 +79,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				878CBE2D2E2B7F3E00BC49C9 /* WhisperKitEx1 */,
+				878CBE2D2E2B7F3E00BC49C9 /* CleoAI */,
 			);
-			name = WhisperKitEx1;
+			name = CleoAI;
 			packageProductDependencies = (
 				878CBE3A2E2B800700BC49C9 /* WhisperKit */,
 			);
-			productName = WhisperKitEx1;
+			productName = CleoAI;
 			productReference = 878CBE2B2E2B7F3E00BC49C9 /* CleoAI.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -115,7 +104,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 878CBE262E2B7F3E00BC49C9 /* Build configuration list for PBXProject "WhisperKitEx1" */;
+			buildConfigurationList = 878CBE262E2B7F3E00BC49C9 /* Build configuration list for PBXProject "CleoAI" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -132,7 +121,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				878CBE2A2E2B7F3E00BC49C9 /* WhisperKitEx1 */,
+				878CBE2A2E2B7F3E00BC49C9 /* CleoAI */,
 			);
 		};
 /* End PBXProject section */
@@ -142,7 +131,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				878CBE402E2B802E00BC49C9 /* test.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +289,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.CleoAI;
 				PRODUCT_NAME = CleoAI;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -330,7 +318,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.WhisperKitEx1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makepluscode.CleoAI;
 				PRODUCT_NAME = CleoAI;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -341,7 +329,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		878CBE262E2B7F3E00BC49C9 /* Build configuration list for PBXProject "WhisperKitEx1" */ = {
+		878CBE262E2B7F3E00BC49C9 /* Build configuration list for PBXProject "CleoAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				878CBE342E2B7F3F00BC49C9 /* Debug */,
@@ -350,7 +338,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		878CBE362E2B7F3F00BC49C9 /* Build configuration list for PBXNativeTarget "WhisperKitEx1" */ = {
+		878CBE362E2B7F3F00BC49C9 /* Build configuration list for PBXNativeTarget "CleoAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				878CBE372E2B7F3F00BC49C9 /* Debug */,
@@ -382,3 +370,7 @@
 	};
 	rootObject = 878CBE232E2B7F3E00BC49C9 /* Project object */;
 }
+
+
+
+

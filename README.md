@@ -1,55 +1,160 @@
-# WhisperKit 예제 프로젝트 (WhisperKitEx1)
+# CleoAI
 
-이 프로젝트는 `WhisperKit` 프레임워크를 사용하여 iOS 앱에서 오디오 파일을 텍스트로 변환하는 간단한 예제입니다.
+CleoAI는 음성 인식(STT)과 AI 기반 노트 요약 기능을 제공하는 iOS 애플리케이션입니다.
 
-## 기능
+## 🚀 주요 기능
 
-- 앱에 포함된 `test.wav` 오디오 파일을 텍스트로 변환합니다.
-- `WhisperKit`의 "tiny" 모델을 사용하여 음성 인식을 수행합니다.
-- 변환 과정의 상태(대기, 처리 중, 완료, 오류)를 UI에 표시합니다.
+- **실시간 음성 녹음**: 고품질 오디오 녹음 및 실시간 레벨 미터
+- **음성 인식**: WhisperKit을 활용한 정확한 음성-텍스트 변환
+- **AI 노트 요약**: 전사 결과를 자동으로 요약하고 키워드 추출
+- **노트 관리**: 카테고리별 노트 분류 및 검색 기능
+- **다국어 지원**: 한국어, 영어 지원
+- **다양한 모델**: tiny, base, small, medium, large 모델 선택 가능
 
-## 요구 사항
+## 🏗️ 아키텍처
+
+### 모듈 구조
+```
+CleoAI/
+├── App/                    # 앱 진입점
+├── Core/                   # 핵심 비즈니스 로직
+│   ├── Models/            # 데이터 모델
+│   ├── Services/          # 서비스 레이어
+│   └── Utils/             # 유틸리티 함수
+├── Features/              # 기능별 모듈
+│   ├── Recording/         # 녹음 기능
+│   ├── Transcription/     # 음성 인식
+│   └── Notes/             # 노트 관리
+├── Shared/                # 공통 컴포넌트
+│   ├── Components/        # 재사용 가능한 UI 컴포넌트
+│   ├── Extensions/        # 확장 기능
+│   └── Constants/         # 상수 정의
+└── Resources/             # 리소스 파일
+```
+
+### 기술 스택
+- **언어**: Swift 5.0
+- **UI 프레임워크**: SwiftUI
+- **아키텍처**: MVVM + Service Layer
+- **음성 인식**: WhisperKit
+- **오디오 처리**: AVFoundation
+
+## 📋 요구사항
 
 - Xcode 15.0 이상
-- iOS 17.0 이상
+- iOS 18.5 이상
 - macOS 14.0 이상
 
-## 설정 및 실행 방법
+## 🛠️ 설치 및 실행
 
-1.  **저장소 복제 (Clone):**
-    ```bash
-    git clone <repository-url>
-    cd WhisperKitEx1
-    ```
+### 1. 저장소 클론
+```bash
+git clone <repository-url>
+cd CleoNoteAI
+```
 
-2.  **프로젝트 열기:**
-    `WhisperKitEx1.xcodeproj` 파일을 Xcode에서 엽니다.
+### 2. Xcode에서 프로젝트 열기
+```bash
+open CleoAI.xcodeproj
+```
 
-3.  **의존성 설치:**
-    Xcode가 자동으로 Swift Package Manager를 통해 `WhisperKit`을 포함한 모든 의존성을 다운로드하고 설정합니다.
+### 3. 의존성 설치
+Xcode가 자동으로 Swift Package Manager를 통해 WhisperKit을 다운로드하고 설정합니다.
 
-4.  **빌드 및 실행:**
-    Xcode 상단에서 실행할 시뮬레이터 또는 연결된 iOS 기기를 선택하고, 재생(▶) 버튼을 클릭하여 앱을 빌드하고 실행합니다.
+### 4. 빌드 및 실행
+Xcode에서 시뮬레이터 또는 실제 기기를 선택하고 실행합니다.
 
-## 사용법
+## 🔧 CLI 빌드
 
-1.  앱이 실행되면 "음성 인식 대기 중..."이라는 텍스트가 표시됩니다.
-2.  **"WAV 파일 변환"** 버튼을 탭합니다.
-3.  앱이 오디오 파일 처리를 시작하며, 버튼은 "처리 중..."으로 변경되고 비활성화됩니다.
-4.  음성 인식이 완료되면, 변환된 텍스트가 화면에 표시됩니다.
+### 빌드 스크립트 사용
+```bash
+# Debug 빌드 (시뮬레이터)
+./Scripts/build.sh debug simulator
 
-## 프로젝트 구조
+# Release 빌드 (디바이스)
+./Scripts/build.sh release device
+```
 
--   `WhisperKitEx1/ContentView.swift`: 앱의 메인 UI와 음성 인식 로직을 포함하는 핵심 파일입니다.
--   `WhisperKitEx1.xcodeproj`: Xcode 프로젝트 파일입니다.
--   `Resources/`: 음성 인식에 사용될 리소스 파일이 위치합니다. (현재는 코드에서 직접 번들 파일을 참조하고 있습니다.)
--   `ggml-tiny-q8_0.bin`: (현재 코드에서는 사용되지 않음) Whisper 모델 파일입니다.
--   `test.wav`: 음성 인식을 테스트하기 위한 샘플 오디오 파일입니다.
--   `.gitignore`: Git 버전 관리에서 제외할 파일 및 폴더 목록입니다.
--   `README.md`: 프로젝트 설명 파일입니다.
+### 배포 스크립트 사용
+```bash
+# 아카이브 생성
+./Scripts/deploy.sh archive
 
-## 기술 스택
+# IPA 내보내기
+./Scripts/deploy.sh export
+```
 
--   **언어:** Swift
--   **프레임워크:** SwiftUI
--   **핵심 의존성:** [WhisperKit](https://github.com/argmaxinc/WhisperKit)
+## 📱 사용법
+
+### 1. 음성 녹음
+- 앱 실행 후 중앙의 원형 버튼을 탭하여 녹음 시작
+- 실시간으로 오디오 레벨과 녹음 시간 확인
+- 다시 탭하여 녹음 중지
+
+### 2. 음성 인식
+- 녹음 중지 후 자동으로 음성 인식 시작
+- 선택한 모델과 언어로 텍스트 변환
+- 진행 상황을 실시간으로 확인
+
+### 3. 노트 생성
+- 전사 결과에서 "노트 생성" 버튼 탭
+- 제목과 카테고리 설정
+- AI가 자동으로 요약과 키워드 생성
+
+### 4. 노트 관리
+- 노트 목록에서 검색 및 필터링
+- 카테고리별 노트 분류
+- 노트 상세 보기 및 공유
+
+## ⚙️ 설정
+
+### 모델 선택
+- 설정 버튼을 통해 WhisperKit 모델 선택
+- 모델 크기에 따른 정확도와 속도 트레이드오프 고려
+
+### 언어 설정
+- 한국어/영어 선택 가능
+- 선택한 언어에 맞는 최적화된 인식
+
+## 🔒 권한
+
+앱은 다음 권한을 요청합니다:
+- **마이크 접근**: 음성 녹음을 위해 필요
+
+## 🧪 테스트
+
+### 단위 테스트
+```bash
+xcodebuild test -project CleoAI.xcodeproj -scheme CleoAI -destination 'platform=iOS Simulator,name=iPhone 15'
+```
+
+### UI 테스트
+```bash
+xcodebuild test -project CleoAI.xcodeproj -scheme CleoAI -destination 'platform=iOS Simulator,name=iPhone 15' -only-testing:CleoAIUITests
+```
+
+## 📈 성능 최적화
+
+- **메모리 관리**: 적절한 메모리 해제 및 weak reference 사용
+- **백그라운드 처리**: 음성 인식을 백그라운드에서 처리
+- **캐싱**: 모델 및 결과 캐싱으로 성능 향상
+
+## 🤝 기여하기
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참조하세요.
+
+## 📞 지원
+
+문제가 발생하거나 기능 요청이 있으시면 GitHub Issues를 통해 알려주세요.
+
+---
+
+**CleoAI** - 음성으로 시작하는 스마트한 노트 관리

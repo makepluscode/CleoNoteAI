@@ -6,18 +6,24 @@ struct LanguagePickerView: View {
 
     var body: some View {
         Menu {
-            ForEach(languages, id: \.self) { lang in
-                Button(lang) { selectedLanguage = lang }
+            ForEach(languages, id: \.self) { language in
+                Button(language) { 
+                    selectedLanguage = language 
+                }
             }
         } label: {
             HStack(spacing: 8) {
                 Text(selectedLanguage)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                     .font(.body)
                 Image(systemName: "chevron.up.chevron.down")
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                     .font(.body)
             }
         }
     }
-} 
+}
+
+
+
+

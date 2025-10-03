@@ -4,8 +4,9 @@ struct TopBarView: View {
     var body: some View {
         HStack {
             Spacer()
-            Text("CleoAI")
-                .font(.title2).bold()
+            Text(AppConstants.appName)
+                .font(.title2)
+                .fontWeight(.bold)
             Image(systemName: "waveform")
                 .foregroundColor(.accentColor)
             Spacer()
@@ -13,3 +14,7 @@ struct TopBarView: View {
         .padding(.top, 20)
     }
 }
+
+
+
+
