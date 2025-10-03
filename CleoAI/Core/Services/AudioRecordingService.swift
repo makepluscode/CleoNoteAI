@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import Combine
+import UIKit
 
 class AudioRecordingService: NSObject, ObservableObject {
     @Published var isRecording = false
@@ -14,6 +15,7 @@ class AudioRecordingService: NSObject, ObservableObject {
     private var audioFile: AVAudioFile?
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
+    private var originalBrightness: CGFloat = 0.5
     
     private let audioFilename: URL = {
         let tempDir = FileManager.default.temporaryDirectory
@@ -23,8 +25,14 @@ class AudioRecordingService: NSObject, ObservableObject {
     func startRecording() throws {
         guard !isRecording else { return }
         
-        // Configure audio session for background recording
-        try configureAudioSessionForBackground()
+        // Save current brightness and set to minimum
+        saveBrightnessAndDim()
+        
+        // Prevent screen from auto-locking during recording
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        // Configure audio session
+        try configureAudioSession()
         
         audioEngine = AVAudioEngine()
         let inputNode = audioEngine!.inputNode
@@ -78,6 +86,12 @@ class AudioRecordingService: NSObject, ObservableObject {
     
     func stopRecording() -> AudioRecording? {
         guard isRecording else { return nil }
+        
+        // Restore original brightness
+        restoreBrightness()
+        
+        // Re-enable auto-lock
+        UIApplication.shared.isIdleTimerDisabled = false
         
         audioEngine?.stop()
         audioEngine?.inputNode.removeTap(onBus: 0)
@@ -145,10 +159,30 @@ class AudioRecordingService: NSObject, ObservableObject {
         return CMTimeGetSeconds(asset.duration)
     }
     
-    private func configureAudioSessionForBackground() throws {
+    private func configureAudioSession() throws {
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.playAndRecord, mode: .default, options: [.allowBluetooth, .defaultToSpeaker, .allowBluetoothA2DP])
+        try session.setCategory(.playAndRecord, mode: .default, options: [.allowBluetooth, .defaultToSpeaker])
         try session.setActive(true)
+    }
+    
+    private func saveBrightnessAndDim() {
+        DispatchQueue.main.async {
+            // Save current brightness
+            self.originalBrightness = UIScreen.main.brightness
+            print("💡 [AudioRecording] Original brightness: \(self.originalBrightness)")
+            
+            // Set brightness to minimum (0.01 to keep screen visible)
+            UIScreen.main.brightness = 0.01
+            print("🌑 [AudioRecording] Brightness set to minimum: 0.01")
+        }
+    }
+    
+    private func restoreBrightness() {
+        DispatchQueue.main.async {
+            // Restore original brightness
+            UIScreen.main.brightness = self.originalBrightness
+            print("💡 [AudioRecording] Brightness restored to: \(self.originalBrightness)")
+        }
     }
 }
 
