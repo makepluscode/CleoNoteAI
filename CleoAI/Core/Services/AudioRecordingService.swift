@@ -1,8 +1,8 @@
 import Foundation
 import AVFoundation
 import Combine
+import UIKit
 
-@MainActor
 class AudioRecordingService: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var audioLevel: Float = 0.0
@@ -15,6 +15,7 @@ class AudioRecordingService: NSObject, ObservableObject {
     private var audioFile: AVAudioFile?
     private var recordingTimer: Timer?
     private var recordingStartTime: Date?
+    private var originalBrightness: CGFloat = 0.5
     
     private let audioFilename: URL = {
         let tempDir = FileManager.default.temporaryDirectory
@@ -23,6 +24,15 @@ class AudioRecordingService: NSObject, ObservableObject {
     
     func startRecording() throws {
         guard !isRecording else { return }
+        
+        // Save current brightness and set to minimum
+        saveBrightnessAndDim()
+        
+        // Prevent screen from auto-locking during recording
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        // Configure audio session
+        try configureAudioSession()
         
         audioEngine = AVAudioEngine()
         let inputNode = audioEngine!.inputNode
@@ -54,19 +64,33 @@ class AudioRecordingService: NSObject, ObservableObject {
         }
         
         do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord, mode: .default)
-            try session.setActive(true)
             audioEngine?.prepare()
             try audioEngine?.start()
             
-            isRecording = true
+            DispatchQueue.main.async {
+                self.isRecording = true
+            }
             recordingStartTime = Date()
             
+            var tickCount = 0
             recordingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
                 guard let self = self, let startTime = self.recordingStartTime else { return }
-                self.recordingTime = Date().timeIntervalSince(startTime)
-                self.updateRecordingFileSize()
+                DispatchQueue.main.async {
+                    self.recordingTime = Date().timeIntervalSince(startTime)
+                    self.updateRecordingFileSize()
+                    
+                    // Check and force brightness every tick (0.1s) to prevent auto-brightness
+                    let currentBrightness = UIScreen.main.brightness
+                    if currentBrightness > 0.015 {
+                        UIScreen.main.brightness = 0.01
+                    }
+                    
+                    // Log brightness every 1 second (every 10 ticks)
+                    tickCount += 1
+                    if tickCount % 10 == 0 {
+                        print("💡 [AudioRecording] Brightness at \(Int(self.recordingTime))s: \(String(format: "%.3f", currentBrightness)) → forced to 0.01")
+                    }
+                }
             }
         } catch {
             throw AudioRecordingError.recordingStartFailed(error)
@@ -76,6 +100,12 @@ class AudioRecordingService: NSObject, ObservableObject {
     func stopRecording() -> AudioRecording? {
         guard isRecording else { return nil }
         
+        // Restore original brightness
+        restoreBrightness()
+        
+        // Re-enable auto-lock
+        UIApplication.shared.isIdleTimerDisabled = false
+        
         audioEngine?.stop()
         audioEngine?.inputNode.removeTap(onBus: 0)
         
@@ -84,7 +114,9 @@ class AudioRecordingService: NSObject, ObservableObject {
         
         updateRecordingFileSize()
         
-        isRecording = false
+        DispatchQueue.main.async {
+            self.isRecording = false
+        }
         audioFile = nil
         
         let duration = getAudioDuration(url: audioFilename)
@@ -101,9 +133,14 @@ class AudioRecordingService: NSObject, ObservableObject {
     private func updateRecordingFileSize() {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: audioFilename.path)
-            recordingFileSize = attributes[.size] as? Int64 ?? 0
+            let size = attributes[.size] as? Int64 ?? 0
+            DispatchQueue.main.async {
+                self.recordingFileSize = size
+            }
         } catch {
-            recordingFileSize = 0
+            DispatchQueue.main.async {
+                self.recordingFileSize = 0
+            }
         }
     }
     
@@ -133,6 +170,32 @@ class AudioRecordingService: NSObject, ObservableObject {
     private func getAudioDuration(url: URL) -> TimeInterval {
         let asset = AVURLAsset(url: url)
         return CMTimeGetSeconds(asset.duration)
+    }
+    
+    private func configureAudioSession() throws {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playAndRecord, mode: .default, options: [.allowBluetooth, .defaultToSpeaker])
+        try session.setActive(true)
+    }
+    
+    private func saveBrightnessAndDim() {
+        DispatchQueue.main.async {
+            // Save current brightness
+            self.originalBrightness = UIScreen.main.brightness
+            print("💡 [AudioRecording] Original brightness: \(self.originalBrightness)")
+            
+            // Set brightness to minimum (0.01 to keep screen visible)
+            UIScreen.main.brightness = 0.01
+            print("🌑 [AudioRecording] Brightness set to minimum: 0.01")
+        }
+    }
+    
+    private func restoreBrightness() {
+        DispatchQueue.main.async {
+            // Restore original brightness
+            UIScreen.main.brightness = self.originalBrightness
+            print("💡 [AudioRecording] Brightness restored to: \(self.originalBrightness)")
+        }
     }
 }
 
