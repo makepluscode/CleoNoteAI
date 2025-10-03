@@ -1,24 +1,8 @@
-# Git Commit Message Rule
+# Git Commit Rule
 
-- 커밋 메시지는 반드시 영어로 작성합니다.
-- 첫 글자는 대문자로 시작합니다.
-- Prefix는 Conventional Commits 스타일을 따릅니다:
-  - feat: 새로운 기능 추가
-  - fix: 버그 수정
-  - docs: 문서 관련 변경
-  - chore: 빌드/설정/기타 변경
-  - refactor: 리팩토링(기능 변화 없음)
-  - style: 코드 포맷팅, 세미콜론 누락 등
-  - test: 테스트 코드 추가/수정
-  - perf: 성능 개선
-- Prefix와 메시지는 콜론(:)과 공백으로 구분합니다.
-- 메시지는 16~32단어 이내로 간결하게 작성합니다.
-- 명령문 형태로 작성하지 않습니다.
-- 예시:
-  - Feat: Add transcription view model for speech-to-text
-  - Fix: Resolve crash when loading test.wav file
-  - Docs: Update README with usage instructions
-  - Chore: Update Swift package dependencies
+- 커밋 메시지는 영어로 작성, 첫 글자 대문자
+- Prefix는 Conventional Commits 스타일 사용 (Feat, Fix, Docs, Chore 등)
+- 예시: "Feat: Add voice transcription feature"
 description:
 globs:
 alwaysApply: false
