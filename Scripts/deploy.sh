@@ -9,6 +9,10 @@ set -e
 PROJECT_NAME="CleoAI"
 SCHEME_NAME="CleoAI"
 ACTION=${1:-archive}
+PROJECT_FILE="${PROJECT_NAME}.xcodeproj/project.pbxproj"
+
+# Auto-detect team ID from project
+TEAM_ID=$(grep "DEVELOPMENT_TEAM" "$PROJECT_FILE" | head -1 | awk -F'= ' '{print $2}' | tr -d ';' | tr -d ' ')
 
 # Colors for output
 RED='\033[0;31m'
@@ -50,7 +54,7 @@ elif [ "$ACTION" = "export" ]; then
     <key>method</key>
     <string>development</string>
     <key>teamID</key>
-    <string>9YQZSH2X84</string>
+    <string>${TEAM_ID}</string>
     <key>uploadBitcode</key>
     <false/>
     <key>uploadSymbols</key>

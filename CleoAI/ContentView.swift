@@ -1,11 +1,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var recordingViewModel = RecordingViewModel()
-    @StateObject private var transcriptionViewModel = TranscriptionViewModel()
+    @StateObject private var audioService = AudioRecordingService()
+    @StateObject private var transcriptionService = TranscriptionService()
+    @StateObject private var noteSummarizationService = NoteSummarizationService()
+    
+    @StateObject private var recordingViewModel: RecordingViewModel
+    @StateObject private var transcriptionViewModel: TranscriptionViewModel
     @StateObject private var notesViewModel = NotesViewModel()
     @State private var showShareSheet = false
     @State private var showNotesView = false
+    
+    init() {
+        let audioService = AudioRecordingService()
+        let transcriptionService = TranscriptionService()
+        let noteSummarizationService = NoteSummarizationService()
+        
+        _audioService = StateObject(wrappedValue: audioService)
+        _transcriptionService = StateObject(wrappedValue: transcriptionService)
+        _noteSummarizationService = StateObject(wrappedValue: noteSummarizationService)
+        _recordingViewModel = StateObject(wrappedValue: RecordingViewModel(audioService: audioService))
+        _transcriptionViewModel = StateObject(wrappedValue: TranscriptionViewModel(
+            transcriptionService: transcriptionService,
+            noteSummarizationService: noteSummarizationService
+        ))
+    }
     
     var body: some View {
         VStack {

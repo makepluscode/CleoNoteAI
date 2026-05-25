@@ -64,8 +64,12 @@ class TranscriptionService: ObservableObject {
 }
 
 extension TranscriptionService: TranscriptionProviding {
-    var isTranscribingPublisher: AnyPublisher<Bool, Never> { $isTranscribing.eraseToAnyPublisher() }
-    var progressMessagePublisher: AnyPublisher<String, Never> { $progressMessage.eraseToAnyPublisher() }
+    nonisolated var isTranscribingPublisher: AnyPublisher<Bool, Never> {
+        MainActor.assumeIsolated { $isTranscribing }.eraseToAnyPublisher()
+    }
+    nonisolated var progressMessagePublisher: AnyPublisher<String, Never> {
+        MainActor.assumeIsolated { $progressMessage }.eraseToAnyPublisher()
+    }
 }
 
 enum TranscriptionError: LocalizedError {

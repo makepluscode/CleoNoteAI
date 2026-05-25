@@ -15,8 +15,8 @@ class TranscriptionViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(
-        transcriptionService: TranscriptionProviding = TranscriptionService(),
-        noteSummarizationService: NoteSummarizationProviding = NoteSummarizationService()
+        transcriptionService: TranscriptionProviding,
+        noteSummarizationService: NoteSummarizationProviding
     ) {
         self.transcriptionService = transcriptionService
         self.noteSummarizationService = noteSummarizationService

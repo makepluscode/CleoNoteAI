@@ -14,7 +14,7 @@ class RecordingViewModel: ObservableObject {
     private let audioService: AudioRecordingProviding
     private var cancellables = Set<AnyCancellable>()
     
-    init(audioService: AudioRecordingProviding = AudioRecordingService()) {
+    init(audioService: AudioRecordingProviding) {
         self.audioService = audioService
         setupBindings()
     }
