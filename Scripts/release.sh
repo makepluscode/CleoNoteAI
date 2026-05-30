@@ -60,13 +60,31 @@ echo -e "${GREEN}▶ Updating project version...${NC}"
 sed -i '' "s/MARKETING_VERSION = $CURRENT_VERSION;/MARKETING_VERSION = $NEW_VERSION;/g" "$PROJECT_FILE"
 sed -i '' "s/CURRENT_PROJECT_VERSION = $BUILD_NUMBER;/CURRENT_PROJECT_VERSION = $NEW_BUILD;/g" "$PROJECT_FILE"
 
-# ── 4. Archive ──
-echo -e "${GREEN}▶ Archiving...${NC}"
-./Scripts/deploy.sh archive
+# ── 4. Build unsigned IPA ──
+echo -e "${GREEN}▶ Building unsigned IPA...${NC}"
+xcodebuild build \
+  -project "CleoAI.xcodeproj" \
+  -scheme "CleoAI" \
+  -configuration Release \
+  -destination "generic/platform=iOS" \
+  -derivedDataPath "./DerivedData" \
+  CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGNING_REQUIRED=NO
 
-# ── 5. Export IPA ──
-echo -e "${GREEN}▶ Exporting IPA...${NC}"
-./Scripts/deploy.sh export
+# Find the .app
+APP_PATH=$(find "./DerivedData/Build/Products/Release-iphoneos" -name "*.app" -type d | head -1)
+if [ -z "$APP_PATH" ]; then
+    echo -e "${RED}❌ .app not found after build!${NC}"
+    exit 1
+fi
+
+# Create IPA from unsigned .app
+mkdir -p "./build/Payload"
+cp -R "$APP_PATH" "./build/Payload/"
+cd "./build"
+zip -r "CleoAI.ipa" Payload/ -q
+cd ..
+rm -rf "./build/Payload"
 
 IPA_PATH="./build/CleoAI.ipa"
 if [ ! -f "$IPA_PATH" ]; then
