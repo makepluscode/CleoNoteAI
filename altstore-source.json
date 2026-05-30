@@ -1,0 +1,28 @@
+{
+  "name": "CleoNoteAI",
+  "identifier": "com.makepluscode.CleoNoteAI.Source",
+  "sourceURL": "https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/altstore-source.json",
+  "apps": [
+    {
+      "name": "CleoAI",
+      "bundleIdentifier": "com.makepluscode.CleoAI",
+      "developerName": "Robert Kim",
+      "subtitle": "AI 기반 음성 녹음 및 노트 요약",
+      "localizedDescription": "CleoAI는 음성 인식(STT)과 AI 기반 노트 요약 기능을 제공하는 iOS 애플리케이션입니다. WhisperKit을 활용한 정확한 음성-텍스트 변환과 자동 요약/키워드 추출을 지원합니다. 한국어와 영어를 지원하며, 다양한 Whisper 모델(tiny부터 large까지)을 선택할 수 있습니다.",
+      "iconURL": "https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/CleoAI/Resources/Assets.xcassets/AppIcon.appiconset/Icon-1024.png",
+      "tintColor": "#202020",
+      "version": "1.0.1",
+      "versionDate": "2026-05-29",
+      "versionDescription": "SideStore OTA 배포 지원, Swift 6 동시성 수정",
+      "downloadURL": "https://github.com/makepluscode/CleoNoteAI/releases/download/v1.0.1/CleoAI.ipa",
+      "size": 1307968,
+      "minOSVersion": "18.5",
+      "permissions": [
+        {
+          "type": "microphone",
+          "usageDescription": "음성 인식 및 녹음을 위해 마이크 접근 권한이 필요합니다."
+        }
+      ]
+    }
+  ]
+}

@@ -45,6 +45,42 @@ CleoAI/
 - iOS 18.5 이상
 - macOS 14.0 이상
 
+## 📲 SideStore OTA 설치 (추천)
+
+SideStore를 통해 iPhone에서 직접 OTA로 설치하고 업데이트할 수 있습니다.
+
+### 1. SideStore Source 추가
+iPhone의 SideStore 앱에서:
+1. **Sources** 탭 → **+** 버튼
+2. 아래 URL 입력:
+   ```
+   https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/altstore-source.json
+   ```
+3. **Add** 버튼 탭
+
+### 2. 앱 설치
+1. **Browse** 탭에서 **CleoAI** 검색
+2. **FREE** (또는 가격 표시) 버튼 탭
+3. Apple ID로 로그인하여 서명
+4. 앱이 자동으로 설치됨
+
+### 3. 업데이트
+SideStore가 백그라운드에서 자동으로 앱 만료를 갱신하고,
+새 버전이 릴리스되면 SideStore에서 업데이트 알림을 보여줍니다.
+
+### 릴리스 스크립트로 새 버전 배포
+```bash
+# 로컬 Mac에서 실행 (Apple 개발자 인증서 필요)
+./Scripts/release.sh patch   # 패치 버전 업 (1.0.0 → 1.0.1)
+./Scripts/release.sh minor   # 마이너 버전 업 (1.0.0 → 1.1.0)
+./Scripts/release.sh major   # 메이저 버전 업 (1.0.0 → 2.0.0)
+```
+스크립트가 자동으로:
+- 버전 번호 증가
+- IPA 빌드
+- Git 태그 + GitHub Release 생성
+- SideStore source.json 업데이트
+
 ## 🛠️ 설치 및 실행
 
 ### 1. 저장소 클론

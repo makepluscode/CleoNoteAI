@@ -1,6 +1,6 @@
 import Foundation
 
-class NoteSummarizationService: ObservableObject {
+class NoteSummarizationService: ObservableObject, NoteSummarizationProviding {
     
     func generateSummary(from text: String) async -> String {
         // TODO: Implement AI-powered summarization

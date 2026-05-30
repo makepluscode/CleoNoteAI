@@ -1,5 +1,6 @@
 import Foundation
 import WhisperKit
+import Combine
 
 @MainActor
 class TranscriptionService: ObservableObject {
@@ -59,6 +60,15 @@ class TranscriptionService: ObservableObject {
     private func stopProgressAnimation() {
         progressTimer?.invalidate()
         progressTimer = nil
+    }
+}
+
+extension TranscriptionService: TranscriptionProviding {
+    nonisolated var isTranscribingPublisher: AnyPublisher<Bool, Never> {
+        MainActor.assumeIsolated { $isTranscribing }.eraseToAnyPublisher()
+    }
+    nonisolated var progressMessagePublisher: AnyPublisher<String, Never> {
+        MainActor.assumeIsolated { $progressMessage }.eraseToAnyPublisher()
     }
 }
 

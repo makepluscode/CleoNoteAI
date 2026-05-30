@@ -35,7 +35,7 @@ if [ "$DESTINATION" = "simulator" ]; then
         -project "${PROJECT_NAME}.xcodeproj" \
         -scheme "${SCHEME_NAME}" \
         -configuration "${CONFIGURATION}" \
-        -destination "platform=iOS Simulator,name=iPhone 16,OS=18.5" \
+        -destination "platform=iOS Simulator,name=iPhone 16" \
         -derivedDataPath "./DerivedData"
 else
     xcodebuild build \
