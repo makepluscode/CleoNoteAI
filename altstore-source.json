@@ -1,0 +1,34 @@
+{
+  "name": "CleoAI Source",
+  "identifier": "com.makepluscode.CleoAI.source",
+  "sourceURL": "https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/altstore-source.json",
+  "apps": [
+    {
+      "name": "CleoAI",
+      "bundleIdentifier": "com.makepluscode.CleoAI",
+      "developerName": "Robert Kim",
+      "subtitle": "On-device AI note taking",
+      "localizedDescription": "CleoAI is an on-device AI note-taking app with background audio recording and transcription.",
+      "iconURL": "https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/CleoAI/Assets.xcassets/AppIcon.appiconset/icon.png",
+      "tintColor": "1E88E5",
+      "category": "productivity",
+      "version": "1.0",
+      "versionDate": "2026-05-30",
+      "versionDescription": "Initial release.",
+      "downloadURL": "https://github.com/makepluscode/CleoNoteAI/releases/download/v1.0/CleoAI.ipa",
+      "size": 0,
+      "permissions": [],
+      "versions": [
+        {
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2026-05-30",
+          "localizedDescription": "Initial release.",
+          "downloadURL": "https://github.com/makepluscode/CleoNoteAI/releases/download/v1.0/CleoAI.ipa",
+          "size": 0
+        }
+      ]
+    }
+  ],
+  "news": []
+}

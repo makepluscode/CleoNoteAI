@@ -26,3 +26,6 @@ Packages/
 # Large binary and audio files
 *.bin
 *.wav
+
+# Secrets
+.env
