@@ -11,11 +11,11 @@
       "localizedDescription": "CleoAI는 음성 인식(STT)과 AI 기반 노트 요약 기능을 제공하는 iOS 애플리케이션입니다. WhisperKit을 활용한 정확한 음성-텍스트 변환과 자동 요약/키워드 추출을 지원합니다. 한국어와 영어를 지원하며, 다양한 Whisper 모델을 선택할 수 있습니다.",
       "iconURL": "https://raw.githubusercontent.com/makepluscode/CleoNoteAI/main/CleoAI/Resources/Assets.xcassets/AppIcon.appiconset/Icon-1024.png",
       "tintColor": "#202020",
-      "version": "",
-      "versionDate": "",
+      "version": "1.1.0",
+      "versionDate": "2026-05-30",
       "versionDescription": "",
-      "downloadURL": "",
-      "size": 0,
+      "downloadURL": "https://github.com/makepluscode/CleoNoteAI/releases/download/v1.1.0/CleoAI.ipa",
+      "size": 1308077,
       "minOSVersion": "18.5",
       "permissions": [
         {
