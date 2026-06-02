@@ -26,3 +26,7 @@ Packages/
 # Large binary and audio files
 *.bin
 *.wav
+
+# Hermes
+.hermes/memories/
+.hermes/MEMORY.md
